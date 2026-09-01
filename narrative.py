@@ -9,6 +9,12 @@ from openai import OpenAI
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 MODEL = "gpt-4o-mini"
 
+NO_GREETING_RULE = (
+    " Nao inclua saudacao (ex: 'Prezado', 'Caro Albert') nem despedida "
+    "(ex: 'Atenciosamente') - escreva APENAS o corpo do paragrafo, pois ele "
+    "sera inserido dentro de uma carta que ja tem sua propria saudacao e "
+    "despedida em outro lugar."
+)
 #we use it to not repeat the boilerpate of calling the API 4 times and we use a low temperature to
 #not get creative answers on a finance doc
 def _chat(system: str, user: str, temperature: float = 0.3) -> str:
@@ -29,6 +35,7 @@ def portfolio_summary_pt(class_returns: dict, portfolio_return: float, holdings_
         "de investimentos em portugues do Brasil, tom profissional e claro. "
         "Use APENAS os numeros fornecidos abaixo - nao invente nenhum numero, "
         "nao mencione benchmark se nao for fornecido um valor de benchmark."
+        + NO_GREETING_RULE
     )
     user = (
         f"Retorno total ponderado do mes: {portfolio_return:+.2f}%\n"
@@ -45,6 +52,7 @@ def macro_summary_pt(macro_raw_text: str) -> str:
         "uma carta a um cliente, em portugues, 1 paragrafo, tom analitico mas acessivel. "
         "Ignore disclaimers legais e rodapes regulatorios do texto - foque apenas nos "
         "dados e projecoes macroeconomicas relevantes para decisoes de investimento."
+        +NO_GREETING_RULE
     )
     return _chat(system, f"Relatorio macro bruto:\n\n{macro_raw_text[:6000]}")
 
@@ -56,6 +64,7 @@ def recommendation_pt(sell_list: list, buy_list: list, fixed_income_note: str, r
         "As decisoes de compra/venda JA FORAM TOMADAS por um motor de regras - "
         "seu trabalho e apenas explicar essas decisoes de forma fluida e justificada, "
         "NAO decidir novas recomendacoes nem inventar ativos que nao estao nas listas."
+        +NO_GREETING_RULE
     )
     user = (
         f"Perfil do cliente: {risk_profile_summary}\n"

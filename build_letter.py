@@ -29,21 +29,21 @@ def build_letter_docx(
 
     doc.add_paragraph(f"Prezado {client_name},")
     intro = doc.add_paragraph(
-        "Segue o relatorio mensal referente ao desempenho do seu portfolio, ao cenario "
-        "macroeconomico e as recomendacoes alinhadas ao seu perfil de investidor."
+        "Segue o relatório mensal referente ao desempenho do seu portfólio, ao cenário "
+        "macroeconômico e as recomendações alinhadas ao seu perfil de investidor."
     )
 
-    doc.add_heading("Desempenho do Portfolio", level=2)
+    doc.add_heading("Desempenho do Portfólio", level=2)
     doc.add_paragraph(portfolio_paragraph)
 
-    doc.add_heading("Cenario Macroeconomico", level=2)
+    doc.add_heading("Cenario Macroeconômico", level=2)
     doc.add_paragraph(macro_paragraph)
 
-    doc.add_heading("Recomendacoes", level=2)
+    doc.add_heading("Recomendações", level=2)
     doc.add_paragraph(recommendation_paragraph)
 
     doc.add_paragraph(
-        "Estamos a disposicao para discutir os resultados e esclarecer qualquer duvida."
+        "Estamos à disposição para discutir os resultados e esclarecer qualquer dúvida."
     )
     doc.add_paragraph("Atenciosamente,")
     sign = doc.add_paragraph(advisor_name)
